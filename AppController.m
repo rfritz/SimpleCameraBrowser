@@ -189,18 +189,50 @@
 }
 
 #pragma mark -
-#pragma mark ICDevice & ICCameraDevice delegate methods
-/*------------------------------------------------------------------------------------------------------------- didRemoveDevice: */
+#pragma mark - ICDeviceDelegate (required)
 
-/* A delegate of ICDevice must conform to ICDeviceDelegate protocol. The required delegate method didRemoveDevice 
- will handle the removal of camera devices. This message is sent to the delegate to inform that a device has been removed.
- */
+- (void)device:(ICDevice *)device didOpenSessionWithError:(NSError *)error
+{
+    NSLog(@"didOpenSessionWithError: %@ error: %@", device, error);
+}
+
+- (void)device:(ICDevice *)device didCloseSessionWithError:(NSError *)error
+{
+    NSLog(@"didCloseSessionWithError: %@ error: %@", device, error);
+}
+
 - (void)didRemoveDevice:(ICDevice*)removedDevice
 {
     NSLog( @"didRemoveDevice: \n%@\n", removedDevice );
     [mCamerasController removeObject:removedDevice];
 }
 
+#pragma mark - ICCameraDeviceDelegate (required)
+
+- (void)deviceDidBecomeReadyWithCompleteContentCatalog:(ICCameraDevice *)device
+{
+    NSLog(@"deviceDidBecomeReadyWithCompleteContentCatalog: %@", device);
+    // In a real app, refresh your content catalog / table view here.
+}
+
+- (void)cameraDevice:(ICCameraDevice *)camera didAddItems:(NSArray *)items      { }
+- (void)cameraDevice:(ICCameraDevice *)camera didRemoveItems:(NSArray *)items   { }
+- (void)cameraDevice:(ICCameraDevice *)camera didRenameItems:(NSArray *)items   { }
+
+- (void)cameraDevice:(ICCameraDevice *)camera
+    didReceiveMetadata:(NSDictionary *)metadata
+               forItem:(ICCameraItem *)item
+                 error:(NSError *)error                                          { }
+
+- (void)cameraDevice:(ICCameraDevice *)camera
+   didReceiveThumbnail:(CGImageRef)thumbnail
+              forItem:(ICCameraItem *)item
+                error:(NSError *)error                                      { }
+
+- (void)cameraDeviceDidChangeCapability:(ICCameraDevice *)camera                { }
+- (void)cameraDeviceDidEnableAccessRestriction:(ICDevice *)device               { }
+- (void)cameraDeviceDidRemoveAccessRestriction:(ICDevice *)device               { }
+- (void)cameraDevice:(ICCameraDevice *)camera didReceivePTPEvent:(NSData *)eventData { }
 
 
 @end
