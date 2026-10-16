@@ -53,7 +53,8 @@
 #import <ImageCaptureCore/ImageCaptureCore.h>
 
 
-@interface AppController : NSObject <ICDeviceBrowserDelegate, ICCameraDeviceDelegate>
+@interface AppController : NSObject
+    <ICDeviceBrowserDelegate, ICDeviceDelegate, ICCameraDeviceDelegate, ICCameraDeviceDownloadDelegate>
 {
     ICDeviceBrowser*              mDeviceBrowser;
     NSMutableArray*               mCameras;
